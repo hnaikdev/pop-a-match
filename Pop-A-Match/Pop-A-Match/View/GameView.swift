@@ -15,7 +15,7 @@ struct GameView: View {
     var body: some View {
         ZStack {
             LinearGradient(
-                colors: [.indigo, .purple, .pink],
+                colors: [.pink.opacity(0.8), .teal.opacity(0.8), .yellow.opacity(0.8), .blue.opacity(0.8), .purple.opacity(0.8)],
                 startPoint: .topLeading,
                 endPoint: .bottomTrailing
             )

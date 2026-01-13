@@ -16,7 +16,7 @@ struct CategoryView: View {
                 Circle()
                     .fill(
                         LinearGradient(
-                            colors: [.blue.opacity(0.6), .blue],
+                            colors: [.purple, .yellow, .blue],
                             startPoint: .topLeading,
                             endPoint: .bottomTrailing
                         )

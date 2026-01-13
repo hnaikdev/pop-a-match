@@ -12,7 +12,7 @@ struct GameCategoryView: View {
         NavigationStack {
             ZStack {
                 LinearGradient(
-                    colors: [.indigo.opacity(0.3), .purple.opacity(0.3), .pink.opacity(0.3)],
+                    colors: [.pink.opacity(0.8), .teal.opacity(0.8), .yellow.opacity(0.8), .blue.opacity(0.8), .purple.opacity(0.8)],
                     startPoint: .topLeading,
                     endPoint: .bottomTrailing
                 )
