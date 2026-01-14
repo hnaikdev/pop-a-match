@@ -22,7 +22,6 @@ struct GameView: View {
             .ignoresSafeArea()
             
             VStack(spacing: 20) {
-                // Header
                 VStack(spacing: 8) {
                     Text("Memory Match")
                         .font(.system(size: 40, weight: .bold, design: .rounded))
@@ -38,7 +37,6 @@ struct GameView: View {
                 }
                 .padding(.top, 40)
                 
-                // Stats Bar
                 HStack(spacing: 40) {
                     VStack(spacing: 4) {
                         Text("Moves")
@@ -107,7 +105,6 @@ struct GameView: View {
                     .transition(.scale.combined(with: .opacity))
                 }
                 
-                // Game Grid
                 LazyVGrid(columns: Array(repeating: GridItem(.flexible(), spacing: 12), count: viewModel.totalItems), spacing: 12) {
                     ForEach(Array(viewState.cards.enumerated()), id: \.element.id) { index, card in
                         CardView(
@@ -123,7 +120,6 @@ struct GameView: View {
                 }
                 .padding()
                 
-                // Instructions
                 Text("Tap cards to flip them and find matching pairs")
                     .font(.caption)
                     .foregroundColor(.white.opacity(0.7))
@@ -131,9 +127,6 @@ struct GameView: View {
                 
                 Spacer()
             }
-        }
-        .onAppear {
-            //viewModel.setupGame()
         }
     }
 }

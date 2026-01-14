@@ -12,9 +12,6 @@ struct Pop_A_MatchApp: App {
     var body: some Scene {
         WindowGroup {
             GameCategoryView()
-//            let viewState = CardViewState()
-//            let viewModel = CardViewModel(viewState: viewState)
-//            GameView(viewState: viewState, viewModel: viewModel)
         }
     }
 }
