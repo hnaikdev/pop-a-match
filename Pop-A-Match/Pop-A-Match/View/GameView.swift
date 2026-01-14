@@ -108,7 +108,7 @@ struct GameView: View {
                 }
                 
                 // Game Grid
-                LazyVGrid(columns: Array(repeating: GridItem(.flexible(), spacing: 12), count: 4), spacing: 12) {
+                LazyVGrid(columns: Array(repeating: GridItem(.flexible(), spacing: 12), count: viewModel.totalItems), spacing: 12) {
                     ForEach(Array(viewState.cards.enumerated()), id: \.element.id) { index, card in
                         CardView(
                             card: card,

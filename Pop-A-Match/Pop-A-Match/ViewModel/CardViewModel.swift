@@ -10,14 +10,28 @@ import Foundation
 final class CardViewModel {
     private let viewState: CardViewState
     private let category: Symbol
+    private let level: Level
     
-    init(viewState: CardViewState, category: Symbol) {
+    init(viewState: CardViewState, category: Symbol, level: Level) {
         self.viewState = viewState
         self.category = category
+        self.level = level
     }
     
     private var symbols: [String] {
-        category.symbols
+        let mySymbols = category.symbols.shuffled()
+        var local = [String]()
+        
+        switch level {
+        case .easy:
+            local = Array(mySymbols[0...2])      // 4 pairs = 8 cards (2x4 grid)
+        case .medium:
+            local = Array(mySymbols[0...5])      // 6 pairs = 12 cards (3x4 grid)
+        case .hard:
+            local = Array(mySymbols[0...9])      // 8 pairs = 16 cards (4x4 grid)
+        }
+        
+        return local.shuffled()
     }
     
     var categoryName: String {
@@ -26,6 +40,13 @@ final class CardViewModel {
     
     var isGameFinished: Bool {
         return viewState.matchedIndices.count == viewState.cards.count && !viewState.cards.isEmpty
+    }
+    
+    var totalItems: Int {
+        if symbols.count > 3 {
+            return 4
+        }
+        return symbols.count
     }
     
     func setupGame() {

@@ -8,6 +8,9 @@
 import SwiftUI
 
 struct GameCategoryView: View {
+    
+    @State private var selectedLevel: Level = .easy
+    
     var body: some View {
         NavigationStack {
             ZStack {
@@ -22,14 +25,26 @@ struct GameCategoryView: View {
                     VStack(spacing: 20) {
                         Text("Choose a Theme")
                             .font(.largeTitle.bold())
-                            .foregroundColor(.primary)
+                            .foregroundStyle(.primary)
                             .padding(.top)
+                        
+                        Picker("Level", selection: $selectedLevel) {
+                            ForEach(Level.allCases, id: \.id) { level in
+                                Text(level.rawValue)
+                                    .font(.footnote.bold())
+                                    .foregroundStyle(.primary)
+                                    .tag(level)
+                            }
+                        }
+                        .pickerStyle(.segmented)
+                        .padding([.leading, .trailing], 16)
+                        .colorMultiply(.pink)
                         
                         LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 16) {
                             ForEach(Symbol.allCases) { category in
                                 NavigationLink {
                                     let viewState = CardViewState()
-                                    let viewModel = CardViewModel(viewState: viewState, category: category)
+                                    let viewModel = CardViewModel(viewState: viewState, category: category, level: selectedLevel)
                                     GameView(viewState: viewState, viewModel: viewModel)
                                 } label: {
                                     CategoryView(category: category)

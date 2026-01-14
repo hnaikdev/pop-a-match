@@ -5,6 +5,16 @@
 //  Created by Hiral Naik on 1/12/26.
 //
 
+enum Level: String, CaseIterable, Identifiable {
+    case easy = "Easy"
+    case medium = "Medium"
+    case hard = "Hard"
+    
+    var id: String {
+        rawValue
+    }
+}
+
 enum Symbol: String, CaseIterable, Identifiable {
     case rewards = "Rewards & Success"
     case animals = "Animals & Nature"
