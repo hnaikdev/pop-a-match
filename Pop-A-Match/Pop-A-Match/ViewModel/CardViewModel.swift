@@ -18,46 +18,25 @@ final class CardViewModel {
         self.level = level
     }
     
-    private var symbols: [String] {
-        let mySymbols = category.symbols.shuffled()
-        var local = [String]()
-        
-        switch level {
-        case .easy:
-            local = Array(mySymbols[0...2])      // 4 pairs = 8 cards (2x4 grid)
-        case .medium:
-            local = Array(mySymbols[0...5])      // 6 pairs = 12 cards (3x4 grid)
-        case .hard:
-            local = Array(mySymbols[0...9])      // 8 pairs = 16 cards (4x4 grid)
-        }
-        
-        return local.shuffled()
-    }
-    
     var categoryName: String {
-        return category.rawValue
+        category.rawValue
     }
     
     var isGameFinished: Bool {
-        return viewState.matchedIndices.count == viewState.cards.count && !viewState.cards.isEmpty
+        viewState.matchedIndices.count == viewState.cards.count && !viewState.cards.isEmpty
     }
     
     var totalItems: Int {
-        if symbols.count > 3 {
-            return 4
-        }
-        return symbols.count
+        level.columnCount
     }
     
     func setupGame() {
-        var cards = [Card]()
+        let selected = category.symbols.shuffled().prefix(level.pairCount)
+        let cards = selected.flatMap { symbol in
+            [Card(symbolName: symbol), Card(symbolName: symbol)]
+        }.shuffled()
         
-        symbols.forEach { symbol in
-            cards.append(Card(symbolName: symbol))
-            cards.append(Card(symbolName: symbol))
-        }
-        
-        viewState.cards = cards.shuffled()
+        viewState.cards = cards
         viewState.flippedIndices = []
         viewState.matchedIndices = []
         viewState.moves = 0
@@ -65,7 +44,10 @@ final class CardViewModel {
     }
     
     func flipCard(at index: Int) {
-        guard !viewState.isChecking, !viewState.flippedIndices.contains(index), !viewState.matchedIndices.contains(index), viewState.flippedIndices.count < 2 else {
+        guard !viewState.isChecking,
+              !viewState.flippedIndices.contains(index),
+              !viewState.matchedIndices.contains(index),
+              viewState.flippedIndices.count < 2 else {
             return
         }
         
@@ -81,18 +63,15 @@ final class CardViewModel {
     private func checkForMatch() {
         let firstIndex = viewState.flippedIndices[0]
         let secondIndex = viewState.flippedIndices[1]
+        let isMatch = viewState.cards[firstIndex].symbolName == viewState.cards[secondIndex].symbolName
         
-        if viewState.cards[firstIndex].symbolName == viewState.cards[secondIndex].symbolName {
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) {
-                self.viewState.matchedIndices.append(contentsOf: self.viewState.flippedIndices)
-                self.viewState.flippedIndices = []
-                self.viewState.isChecking = false
+        Task { @MainActor in
+            try? await Task.sleep(for: .milliseconds(600))
+            if isMatch {
+                self.viewState.matchedIndices.formUnion(self.viewState.flippedIndices)
             }
-        } else {
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) {
-                self.viewState.flippedIndices = []
-                self.viewState.isChecking = false
-            }
+            self.viewState.flippedIndices = []
+            self.viewState.isChecking = false
         }
     }
 }

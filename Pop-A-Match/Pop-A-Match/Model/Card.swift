@@ -10,6 +10,4 @@ import Foundation
 struct Card: Identifiable {
     let id = UUID()
     let symbolName: String
-    var isFlipped: Bool = false
-    var isMatched: Bool = false
 }

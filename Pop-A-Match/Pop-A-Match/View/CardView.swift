@@ -13,18 +13,21 @@ struct CardView: View {
     let isMatched: Bool
     let action: () -> Void
     
+    private var cardGradient: LinearGradient {
+        if isMatched {
+            return LinearGradient(colors: [.green, .mint], startPoint: .topLeading, endPoint: .bottomTrailing)
+        } else if isFlipped {
+            return LinearGradient(colors: [.blue, .indigo], startPoint: .topLeading, endPoint: .bottomTrailing)
+        } else {
+            return LinearGradient(colors: [.gray.opacity(0.3), .gray.opacity(0.5)], startPoint: .topLeading, endPoint: .bottomTrailing)
+        }
+    }
+    
     var body: some View {
         Button(action: action) {
             ZStack {
                 RoundedRectangle(cornerRadius: 12)
-                    .fill(
-                        isFlipped ?
-                        (isMatched ?
-                         LinearGradient(colors: [.green, .mint], startPoint: .topLeading, endPoint: .bottomTrailing) :
-                         LinearGradient(colors: [.blue, .indigo], startPoint: .topLeading, endPoint: .bottomTrailing))
-                        :
-                        LinearGradient(colors: [.gray.opacity(0.3), .gray.opacity(0.5)], startPoint: .topLeading, endPoint: .bottomTrailing)
-                    )
+                    .fill(cardGradient)
                     .shadow(radius: 3)
                 
                 if isFlipped {
@@ -38,10 +41,6 @@ struct CardView: View {
                 }
             }
             .aspectRatio(1, contentMode: .fit)
-            .rotation3DEffect(
-                .degrees(isFlipped ? 0 : 0),
-                axis: (x: 0, y: 1, z: 0)
-            )
             .animation(.easeInOut(duration: 0.3), value: isFlipped)
         }
         .disabled(isMatched)

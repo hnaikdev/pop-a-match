@@ -11,7 +11,7 @@ import Combine
 final class CardViewState: ObservableObject {
     @Published var cards: [Card] = []
     @Published var flippedIndices: [Int] = []
-    @Published var matchedIndices: [Int] = []
+    @Published var matchedIndices: Set<Int> = []
     @Published var moves = 0
     @Published var isChecking = false
 }

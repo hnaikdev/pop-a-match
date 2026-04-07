@@ -13,6 +13,21 @@ enum Level: String, CaseIterable, Identifiable {
     var id: String {
         rawValue
     }
+    
+    var pairCount: Int {
+        switch self {
+        case .easy: return 3
+        case .medium: return 6
+        case .hard: return 10
+        }
+    }
+    
+    var columnCount: Int {
+        switch self {
+        case .easy: return 3
+        case .medium, .hard: return 4
+        }
+    }
 }
 
 enum Symbol: String, CaseIterable, Identifiable {

@@ -29,7 +29,7 @@ struct GameCategoryView: View {
                             .padding(.top)
                         
                         Picker("Level", selection: $selectedLevel) {
-                            ForEach(Level.allCases, id: \.id) { level in
+                            ForEach(Level.allCases) { level in
                                 Text(level.rawValue)
                                     .font(.footnote.bold())
                                     .foregroundStyle(.primary)
@@ -37,7 +37,7 @@ struct GameCategoryView: View {
                             }
                         }
                         .pickerStyle(.segmented)
-                        .padding([.leading, .trailing], 16)
+                        .padding(.horizontal, 16)
                         .colorMultiply(.pink)
                         
                         LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 16) {
